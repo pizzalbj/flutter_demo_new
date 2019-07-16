@@ -42,13 +42,23 @@ class Point {
 }
 
 class Person {
-  // 3 这里也是父类唯一的构造函数
+  int age;
+  String name;
+
+  Person(this.age, this.name);
+
   Person.fromJson(Map data) {
     print("in Person");
   }
 }
 
 class Employee extends Person {
+  int age;
+  String name;
+
+  // Employee(this.age, this.name);  // 会报错
+  Employee(this.age, this.name) : super(age, name);
+
   // 3 子类构造函数调用父类的默认构造函数，如果父类没有默认构造函数，必须手动调用父类的构造函数，在 : 号后面指定父类的构造函数
   Employee.fromJson(Map data) : super.fromJson(data) {
     print("in Employye");
