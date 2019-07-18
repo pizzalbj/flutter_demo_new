@@ -32,6 +32,10 @@ import 'package:flutter_demo_new/widget/v_keyboard_textField.dart';
 import 'package:flutter_demo_new/widget/w_animation.dart';
 // import 'package:flutter_demo_new/widget/mvp/module/contacts/contact_view.dart';
 
+import 'package:flutter_demo_new/widget/webview_flutter/main_page.dart';
+import 'package:flutter_demo_new/widget/webview_with_tabbar/first_page.dart';
+import 'package:flutter_webview_plugin/flutter_webview_plugin.dart';
+
 void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
@@ -41,6 +45,8 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final FlutterWebviewPlugin flutterWebViewPlugin = FlutterWebviewPlugin();
+
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
@@ -49,6 +55,61 @@ class MyApp extends StatelessWidget {
       routes: {
         '/': (BuildContext context) =>
             MyHomePage(title: 'Flutter Demo Home Page'),
+
+        /// 全局 widget webview
+        "/widget_webview": (context) => new SafeArea(
+              /// usage: Navigator.of(context).pushNamed('/widget', arguments: "https://www.qq.com")
+              child: WebviewScaffold(
+                // appBar: new AppBar(),
+                url: ModalRoute.of(context).settings.arguments,
+                withJavascript: true,
+                withZoom: true,
+                withLocalStorage: true,
+                // show a default CircularProgressIndicator
+                hidden: true,
+                bottomNavigationBar: BottomAppBar(
+                  child: new Container(
+                    height: 44.0,
+                    decoration: new BoxDecoration(
+                      color: Colors.white,
+                    ),
+                    child: new Row(
+                      children: <Widget>[
+                        new IconButton(
+                          color: Theme.of(context).primaryColor,
+                          icon: const Icon(Icons.arrow_back_ios),
+                          onPressed: () {
+                            flutterWebViewPlugin.goBack();
+                          },
+                        ),
+                        new Expanded(
+                          child: new Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: <Widget>[
+                              new IconButton(
+                                icon: const Icon(Icons.autorenew),
+                                onPressed: () {
+                                  flutterWebViewPlugin.reload();
+                                },
+                              ),
+                              new IconButton(
+                                icon: const Icon(Icons.close),
+                                color: Theme.of(context).primaryColor,
+                                onPressed: () {
+                                  /// Close launched WebView。通过 routes 打开的 webview 不起作用
+                                  /// flutterWebViewPlugin.close();
+                                  Navigator.of(context).pop();
+                                },
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            ),
       },
     );
   }
@@ -375,6 +436,43 @@ class _MyHomePageState extends State<MyHomePage> {
               );
             },
           ),
+          new ListTile(
+            trailing: new Icon(Icons.keyboard_arrow_right),
+            // https://www.jb51.net/article/157680.htm
+            // 1. IndexedStack 继承自 Stack，可以保存 webview_flutter 的页面状态
+            //    但是，应用第一次加载的时候，所有子页状态都被实例化了
+            //    最重要的是，webview_flutter 不支持在安卓上面弹出 keyBoard，故不使用
+            // 2. IndexedStack 并不能和 flutter_webview_plugin 一齐实现保存页面的 state，
+            //    flutter_webview_plugin 适合当文章浏览器，并且在文章浏览器里面添加操作（刷新，后退等），如 home_page 的 goto 按钮
+            title: new Text(
+                "webview。body 中并没有使用 PageView 或 TabBarView，使用 webview_flutter 和 IndexedStack，实现页面切换保存 state。"),
+            onTap: () {
+              Navigator.of(context).push(
+                new MaterialPageRoute(builder: (ctx) {
+                  return new MainPage();
+                }),
+              );
+            },
+          ),
+          new ListTile(
+            trailing: new Icon(Icons.keyboard_arrow_right),
+            // https://www.jb51.net/article/157680.htm
+            // 由上一个 ListTitle 可知，flutter_webview_plugin 和 IndexedStack 是实现不了保存 webview 的 state 的
+            // 下面尝试使用 flutter_webview_plugin 和 TabBar + TabBarView + AutomaticKeepAliveClientMixin 实现底部切换 webView，并保存 webview 的 state
+            // 1. TabBar + TabBarView + AutomaticKeepAliveClientMixin 也可以实现保存页面的 state，并且具有惰性求值的功能，
+            //  这一点比 IndexedStack 和 webview_flutter 的结合好。但是却也无法保存 WebviewScaffold 页面的 state
+            // 2. 如果不介意 webview_flutter 调用不了 keyboard 的问题的话，TabBar + TabBarView + AutomaticKeepAliveClientMixin 和 webview_flutter 的结合是最好的
+            title: new Text(
+                "webview。使用 TabBar + TabBarView + AutomaticKeepAliveClientMixin 来实现顶部导航"),
+            onTap: () {
+              Navigator.of(context).push(
+                new MaterialPageRoute(builder: (ctx) {
+                  return new FirstPage();
+                }),
+              );
+            },
+          ),
+
 //          new ListTile(
 //            trailing: new Icon(Icons.keyboard_arrow_right),
 //            title: new Text("flutter_mvp"),
@@ -391,115 +489,3 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 }
-
-//import 'package:flutter/material.dart';
-//
-//void main() => runApp(MyApp());
-//
-//class MyApp extends StatelessWidget {
-//  // This widget is the root of your application.
-//  @override
-//  Widget build(BuildContext context) {
-//    return MaterialApp(
-//      title: 'Flutter Demo',
-//      theme: ThemeData(
-//        // This is the theme of your application.
-//        //
-//        // Try running your application with "flutter run". You'll see the
-//        // application has a blue toolbar. Then, without quitting the app, try
-//        // changing the primarySwatch below to Colors.green and then invoke
-//        // "hot reload" (press "r" in the console where you ran "flutter run",
-//        // or simply save your changes to "hot reload" in a Flutter IDE).
-//        // Notice that the counter didn't reset back to zero; the application
-//        // is not restarted.
-//        primarySwatch: Colors.blue,
-//      ),
-//      home: MyHomePage(title: 'Flutter Demo Home Page'),
-//    );
-//  }
-//}
-//
-//class MyHomePage extends StatefulWidget {
-//  MyHomePage({Key key, this.title}) : super(key: key);
-//
-//  // This widget is the home page of your application. It is stateful, meaning
-//  // that it has a State object (defined below) that contains fields that affect
-//  // how it looks.
-//
-//  // This class is the configuration for the state. It holds the values (in this
-//  // case the title) provided by the parent (in this case the App widget) and
-//  // used by the build method of the State. Fields in a Widget subclass are
-//  // always marked "final".
-//
-//  final String title;
-//
-//  @override
-//  _MyHomePageState createState() => _MyHomePageState();
-//}
-//
-//class _MyHomePageState extends State<MyHomePage> {
-//  int _counter = 0;
-//
-//  void _incrementCounter() {
-//    setState(() {
-//      // This call to setState tells the Flutter framework that something has
-//      // changed in this State, which causes it to rerun the build method below
-//      // so that the display can reflect the updated values. If we changed
-//      // _counter without calling setState(), then the build method would not be
-//      // called again, and so nothing would appear to happen.
-//      _counter++;
-//    });
-//  }
-//
-//  @override
-//  Widget build(BuildContext context) {
-//    // This method is rerun every time setState is called, for instance as done
-//    // by the _incrementCounter method above.
-//    //
-//    // The Flutter framework has been optimized to make rerunning build methods
-//    // fast, so that you can just rebuild anything that needs updating rather
-//    // than having to individually change instances of widgets.
-//    return Scaffold(
-//      appBar: AppBar(
-//        // Here we take the value from the MyHomePage object that was created by
-//        // the App.build method, and use it to set our appbar title.
-//        title: Text(widget.title),
-//      ),
-//      body: Center(
-//        // Center is a layout widget. It takes a single child and positions it
-//        // in the middle of the parent.
-//        child: Column(
-//          // Column is also layout widget. It takes a list of children and
-//          // arranges them vertically. By default, it sizes itself to fit its
-//          // children horizontally, and tries to be as tall as its parent.
-//          //
-//          // Invoke "debug painting" (press "p" in the console, choose the
-//          // "Toggle Debug Paint" action from the Flutter Inspector in Android
-//          // Studio, or the "Toggle Debug Paint" command in Visual Studio Code)
-//          // to see the wireframe for each widget.
-//          //
-//          // Column has various properties to control how it sizes itself and
-//          // how it positions its children. Here we use mainAxisAlignment to
-//          // center the children vertically; the main axis here is the vertical
-//          // axis because Columns are vertical (the cross axis would be
-//          // horizontal).
-//          mainAxisAlignment: MainAxisAlignment.center,
-//          children: <Widget>[
-//            Text(
-//              'You have pushed the button this many times:',
-//            ),
-//            Text(
-//              '$_counter',
-//              style: Theme.of(context).textTheme.display1,
-//            ),
-//          ],
-//        ),
-//      ),
-//      floatingActionButton: FloatingActionButton(
-//        onPressed: _incrementCounter,
-//        tooltip: 'Increment',
-//        child: Icon(Icons.add),
-//      ), // This trailing comma makes auto-formatting nicer for build methods.
-//    );
-//  }
-//}
