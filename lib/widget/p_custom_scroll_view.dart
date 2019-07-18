@@ -18,7 +18,7 @@ class CustomScrollViewClassState extends State<CustomScrollViewClass> {
         child: new Row(
           children: <Widget>[
             new Image.asset(
-              "images/tips.png",
+              "static/images/close_page.png",
               width: 18.0,
               height: 18.0,
             ),

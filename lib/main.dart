@@ -1,13 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:fluro/fluro.dart';
 import 'package:flutter_demo_new/navigation.dart';
-import 'package:flutter_demo_new/widget/o_text_form_field_demo.dart';
 import 'package:flutter_demo_new/widget/a_gridTest.dart';
 import 'package:flutter_demo_new/widget/b_layout.dart';
-import 'package:flutter_demo_new/widget/c_iconAndText.dart';
-import 'package:flutter_demo_new/widget/c_iconAndText_a.dart';
-import 'package:flutter_demo_new/widget/c_iconAndText_b.dart';
-import 'package:flutter_demo_new/widget/c_iconAndText_c.dart';
 import 'package:flutter_demo_new/widget/d_dynamicWidget.dart';
 import 'package:flutter_demo_new/widget/e_AlertDialogContent.dart';
 import 'package:flutter_demo_new/widget/f_dialogSetStatus.dart';
@@ -18,22 +13,19 @@ import 'package:flutter_demo_new/widget/j_flutter_list_and_dialog_example.dart';
 import 'package:flutter_demo_new/widget/k_tabbar_with_index.dart';
 import 'package:flutter_demo_new/widget/l_login_dialog.dart';
 import 'package:flutter_demo_new/widget/l_login_dialog_two.dart';
-import 'package:flutter_demo_new/widget/m_camera.dart';
 import 'package:flutter_demo_new/widget/n_bottom_sheet.dart';
 import 'package:flutter_demo_new/widget/p_custom_scroll_view.dart';
 import 'package:flutter_demo_new/widget/q_image_picker.dart';
 import 'package:flutter_demo_new/widget/r_listview_in_listview.dart';
 import 'package:flutter_demo_new/widget/s_dynamic_textField.dart';
 import 'package:flutter_demo_new/widget/t_only_column.dart';
-import 'package:flutter_demo_new/widget/u_sign.dart';
 
-// import 'package:flutter_demo/widget/u_sign_pad.dart';
 import 'package:flutter_demo_new/widget/v_keyboard_textField.dart';
 import 'package:flutter_demo_new/widget/w_animation.dart';
-// import 'package:flutter_demo_new/widget/mvp/module/contacts/contact_view.dart';
 
 import 'package:flutter_demo_new/widget/webview_flutter/main_page.dart';
 import 'package:flutter_demo_new/widget/webview_with_tabbar/first_page.dart';
+
 import 'package:flutter_webview_plugin/flutter_webview_plugin.dart';
 
 void main() => runApp(MyApp());
@@ -134,24 +126,19 @@ class _MyHomePageState extends State<MyHomePage> {
         children: <Widget>[
           new ListTile(
             trailing: new Icon(Icons.keyboard_arrow_right),
-            title: new Text("表单"),
+            title: new Text("基本表单"),
             onTap: () {
-              // 自定义导航
+              /// 自定义导航
               Navigation.navigateTo(
                 context,
                 'TextFormFieldDemo',
                 transition: TransitionType.fadeIn,
               );
-//              Navigator.of(context).push(
-//                new MaterialPageRoute(builder: (ctx) {
-//                  return new TextFormFieldDemo();
-//                }),
-//              );
             },
           ),
           new ListTile(
             trailing: new Icon(Icons.keyboard_arrow_right),
-            title: new Text("表格"),
+            title: new Text("List 和 Grid"),
             onTap: () {
               Navigator.of(context).push(
                 new MaterialPageRoute(builder: (ctx) {
@@ -162,55 +149,11 @@ class _MyHomePageState extends State<MyHomePage> {
           ),
           new ListTile(
             trailing: new Icon(Icons.keyboard_arrow_right),
-            title: new Text("布局"),
+            title: new Text("上中下布局"),
             onTap: () {
               Navigator.of(context).push(
                 new MaterialPageRoute(builder: (ctx) {
                   return new b_layout();
-                }),
-              );
-            },
-          ),
-          new ListTile(
-            trailing: new Icon(Icons.keyboard_arrow_right),
-            title: new Text("icon隔壁有文字。并没有解决问题"),
-            onTap: () {
-              Navigator.of(context).push(
-                new MaterialPageRoute(builder: (ctx) {
-                  return new c_iconAndText();
-                }),
-              );
-            },
-          ),
-          new ListTile(
-            trailing: new Icon(Icons.keyboard_arrow_right),
-            title: new Text("有文字 wrap"),
-            onTap: () {
-              Navigator.of(context).push(
-                new MaterialPageRoute(builder: (ctx) {
-                  return new c_iconAndText_a();
-                }),
-              );
-            },
-          ),
-          new ListTile(
-            trailing: new Icon(Icons.keyboard_arrow_right),
-            title: new Text("有文字 wrap"),
-            onTap: () {
-              Navigator.of(context).push(
-                new MaterialPageRoute(builder: (ctx) {
-                  return new c_iconAndText_b();
-                }),
-              );
-            },
-          ),
-          new ListTile(
-            trailing: new Icon(Icons.keyboard_arrow_right),
-            title: new Text("左icon 右文字 wrap"),
-            onTap: () {
-              Navigator.of(context).push(
-                new MaterialPageRoute(builder: (ctx) {
-                  return new c_iconAndText_c();
                 }),
               );
             },
@@ -228,7 +171,7 @@ class _MyHomePageState extends State<MyHomePage> {
           ),
           new ListTile(
             trailing: new Icon(Icons.keyboard_arrow_right),
-            title: new Text("提示框内容高度不拉伸"),
+            title: new Text("提示框-内容高度不拉伸"),
             onTap: () {
               Navigator.of(context).push(
                 new MaterialPageRoute(builder: (ctx) {
@@ -239,7 +182,7 @@ class _MyHomePageState extends State<MyHomePage> {
           ),
           new ListTile(
             trailing: new Icon(Icons.keyboard_arrow_right),
-            title: new Text("提示框setStates"),
+            title: new Text("提示框更改status"),
             onTap: () {
               Navigator.of(context).push(
                 new MaterialPageRoute(builder: (ctx) {
@@ -250,7 +193,7 @@ class _MyHomePageState extends State<MyHomePage> {
           ),
           new ListTile(
             trailing: new Icon(Icons.keyboard_arrow_right),
-            title: new Text("position fix"),
+            title: new Text("绝对定位"),
             onTap: () {
               Navigator.of(context).push(
                 new MaterialPageRoute(builder: (ctx) {
@@ -261,7 +204,7 @@ class _MyHomePageState extends State<MyHomePage> {
           ),
           new ListTile(
             trailing: new Icon(Icons.keyboard_arrow_right),
-            title: new Text("用 Null or Container(width height zero)"),
+            title: new Text("Null和Container(宽高为0)的区别"),
             onTap: () {
               Navigator.of(context).push(
                 new MaterialPageRoute(builder: (ctx) {
@@ -272,7 +215,7 @@ class _MyHomePageState extends State<MyHomePage> {
           ),
           new ListTile(
             trailing: new Icon(Icons.keyboard_arrow_right),
-            title: new Text("dialog_demo"),
+            title: new Text("各种类型的弹窗"),
             onTap: () {
               Navigator.of(context).push(
                 new MaterialPageRoute(builder: (ctx) {
@@ -294,7 +237,7 @@ class _MyHomePageState extends State<MyHomePage> {
           ),
           new ListTile(
             trailing: new Icon(Icons.keyboard_arrow_right),
-            title: new Text("TabController"),
+            title: new Text("TabBar 顶部"),
             onTap: () {
               Navigator.of(context).push(
                 new MaterialPageRoute(builder: (ctx) {
@@ -305,7 +248,7 @@ class _MyHomePageState extends State<MyHomePage> {
           ),
           new ListTile(
             trailing: new Icon(Icons.keyboard_arrow_right),
-            title: new Text("login_dialog"),
+            title: new Text("登录 1"),
             onTap: () {
               Navigator.of(context).push(
                 new MaterialPageRoute(builder: (ctx) {
@@ -316,22 +259,11 @@ class _MyHomePageState extends State<MyHomePage> {
           ),
           new ListTile(
             trailing: new Icon(Icons.keyboard_arrow_right),
-            title: new Text("login_dialog_two"),
+            title: new Text("登录 2"),
             onTap: () {
               Navigator.of(context).push(
                 new MaterialPageRoute(builder: (ctx) {
                   return new TestSignInView();
-                }),
-              );
-            },
-          ),
-          new ListTile(
-            trailing: new Icon(Icons.keyboard_arrow_right),
-            title: new Text("camere"),
-            onTap: () {
-              Navigator.of(context).push(
-                new MaterialPageRoute(builder: (ctx) {
-                  // return new CameraApp();
                 }),
               );
             },
@@ -349,7 +281,7 @@ class _MyHomePageState extends State<MyHomePage> {
           ),
           new ListTile(
             trailing: new Icon(Icons.keyboard_arrow_right),
-            title: new Text("image_picker"),
+            title: new Text("选择照片 image_picker"),
             onTap: () {
               Navigator.of(context).push(
                 new MaterialPageRoute(builder: (ctx) {
@@ -402,17 +334,6 @@ class _MyHomePageState extends State<MyHomePage> {
               );
             },
           ),
-//          new ListTile(
-//            trailing: new Icon(Icons.keyboard_arrow_right),
-//            title: new Text("涂鸦（生成图片，原生）"),
-//            onTap: () {
-//              Navigator.of(context).push(
-//                new MaterialPageRoute(builder: (ctx) {
-//                  return new Signature();
-//                }),
-//              );
-//            },
-//          ),
           new ListTile(
             trailing: new Icon(Icons.keyboard_arrow_right),
             title: new Text("textField 不被 keyboard 遮挡"),
@@ -426,7 +347,7 @@ class _MyHomePageState extends State<MyHomePage> {
           ),
           new ListTile(
             trailing: new Icon(Icons.keyboard_arrow_right),
-            title: new Text("progress button"),
+            title: new Text("按钮动画"),
             onTap: () {
               Navigator.of(context).push(
                 new MaterialPageRoute(builder: (ctx) {
@@ -449,7 +370,7 @@ class _MyHomePageState extends State<MyHomePage> {
             onTap: () {
               Navigator.of(context).push(
                 new MaterialPageRoute(builder: (ctx) {
-                  return new MainPage();
+                  // return new MainPage();
                 }),
               );
             },
