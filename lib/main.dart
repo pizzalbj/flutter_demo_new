@@ -19,6 +19,9 @@ import 'package:flutter_demo_new/widget/q_image_picker.dart';
 import 'package:flutter_demo_new/widget/r_listview_in_listview.dart';
 import 'package:flutter_demo_new/widget/s_dynamic_textField.dart';
 import 'package:flutter_demo_new/widget/t_only_column.dart';
+import 'package:flutter_demo_new/widget/stream_bloc/x_stream_builder.dart';
+import 'package:flutter_demo_new/widget/stream_bloc/bloc.dart';
+import 'package:flutter_demo_new/widget/widgets/explorer.dart';
 
 import 'package:flutter_demo_new/widget/v_keyboard_textField.dart';
 import 'package:flutter_demo_new/widget/w_animation.dart';
@@ -27,6 +30,7 @@ import 'package:flutter_demo_new/widget/webview_flutter/main_page.dart';
 import 'package:flutter_demo_new/widget/webview_with_tabbar/first_page.dart';
 
 import 'package:flutter_webview_plugin/flutter_webview_plugin.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 void main() => runApp(MyApp());
 
@@ -393,7 +397,33 @@ class _MyHomePageState extends State<MyHomePage> {
               );
             },
           ),
-
+          new ListTile(
+            trailing: new Icon(Icons.keyboard_arrow_right),
+            title: new Text("stream_builder"),
+            onTap: () {
+              Navigator.of(context).push(
+                new MaterialPageRoute(builder: (ctx) {
+                  return new CounterPage();
+                }),
+              );
+            },
+          ),
+          new ListTile(
+            trailing: new Icon(Icons.keyboard_arrow_right),
+            title: new Text("flutter_widget explorer"),
+            onTap: () async {
+              SharedPreferences sp = await SharedPreferences.getInstance();
+              sp.setString("token", "pc9527");
+              Navigator.of(context).push(
+                new MaterialPageRoute(builder: (ctx) {
+                  return new YayaExplorer(
+                    title: "qq",
+                    url: "https://www.qq.com",
+                  );
+                }),
+              );
+            },
+          ),
 //          new ListTile(
 //            trailing: new Icon(Icons.keyboard_arrow_right),
 //            title: new Text("flutter_mvp"),

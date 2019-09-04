@@ -29,6 +29,7 @@ dependencies:
   english_words: ^3.1.4
   intl: 0.15.7
   intl_translation: 0.17.2
+
   numberpicker: ^0.1.7
   # camera: "^0.2.4"
   video_player: 0.7.2
@@ -36,6 +37,12 @@ dependencies:
   signature_pad_flutter: ^1.2.0
   flutter_webview_plugin: ^0.3.5
   webview_flutter: ^0.3.10
+  rxdart: ^0.22.1+1
+  bloc: ^0.15.0
+
+  flutter_user_agent: ^1.0.1
+  package_info: ^0.4.0+6
+  shared_preferences: ^0.5.3+1
 
 dev_dependencies:
   flutter_test:
