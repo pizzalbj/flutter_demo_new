@@ -22,6 +22,7 @@ import 'package:flutter_demo_new/widget/t_only_column.dart';
 import 'package:flutter_demo_new/widget/stream_bloc/x_stream_builder.dart';
 import 'package:flutter_demo_new/widget/stream_bloc/bloc.dart';
 import 'package:flutter_demo_new/widget/widgets/explorer.dart';
+import 'package:flutter_demo_new/widget/x_futureBuilder.dart';
 
 import 'package:flutter_demo_new/widget/v_keyboard_textField.dart';
 import 'package:flutter_demo_new/widget/w_animation.dart';
@@ -399,6 +400,22 @@ class _MyHomePageState extends State<MyHomePage> {
           ),
           new ListTile(
             trailing: new Icon(Icons.keyboard_arrow_right),
+            title: new Text("flutter_widget explorer"),
+            onTap: () async {
+              SharedPreferences sp = await SharedPreferences.getInstance();
+              sp.setString("token", "pc9527");
+              Navigator.of(context).push(
+                new MaterialPageRoute(builder: (ctx) {
+                  return new YayaExplorer(
+                    title: "qq",
+                    url: "https://www.qq.com",
+                  );
+                }),
+              );
+            },
+          ),
+          new ListTile(
+            trailing: new Icon(Icons.keyboard_arrow_right),
             title: new Text("stream_builder"),
             onTap: () {
               Navigator.of(context).push(
@@ -410,16 +427,11 @@ class _MyHomePageState extends State<MyHomePage> {
           ),
           new ListTile(
             trailing: new Icon(Icons.keyboard_arrow_right),
-            title: new Text("flutter_widget explorer"),
-            onTap: () async {
-              SharedPreferences sp = await SharedPreferences.getInstance();
-              sp.setString("token", "pc9527");
+            title: new Text("FutureBuilder"),
+            onTap: () {
               Navigator.of(context).push(
                 new MaterialPageRoute(builder: (ctx) {
-                  return new YayaExplorer(
-                    title: "qq",
-                    url: "https://www.qq.com",
-                  );
+                  return new FutureBuilderPage();
                 }),
               );
             },
