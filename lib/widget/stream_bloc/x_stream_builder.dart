@@ -13,6 +13,7 @@ class CounterPage extends StatefulWidget {
 /// StreamController.sink
 class _CounterPageState extends State<CounterPage> {
   int _counter = 0;
+  // todo: how to do with multi data.
   final StreamController<int> _streamController = StreamController<int>();
 
   @override
