@@ -21,23 +21,37 @@ class n_bottom_sheetState extends State<n_bottom_sheet> {
     });
 
     _scaffoldKey.currentState
-        .showBottomSheet((context) {
-      return new Container(
-        height: 300.0,
-        color: Colors.greenAccent,
-        child: new Center(
-          child: new Text("Hi BottomSheet"),
-        ),
-      );
-    },
-    ).closed.whenComplete(() {
-      if (mounted) {
-        setState(() {
-          _showPersBottomSheetCallBack = _showBottomSheet;
-        });
-      }
-    },
-    );
+        .showBottomSheet(
+          (context) {
+            return new Container(
+              height: 300.0,
+              color: Colors.greenAccent,
+              child: new Column(
+                children: <Widget>[
+                  new RaisedButton(
+                    child: new Text("close"),
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                  ),
+                  new Center(
+                    child: new Text("Hi BottomSheet"),
+                  ),
+                ],
+              ),
+            );
+          },
+        )
+        .closed
+        .whenComplete(
+          () {
+            if (mounted) {
+              setState(() {
+                _showPersBottomSheetCallBack = _showBottomSheet;
+              });
+            }
+          },
+        );
   }
 
   void _showModalSheet() {
@@ -66,21 +80,21 @@ class n_bottom_sheetState extends State<n_bottom_sheet> {
         padding: const EdgeInsets.all(20.0),
         child: new Center(
             child: new Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                new RaisedButton(
-                  onPressed: _showPersBottomSheetCallBack,
-                  child: new Text("Persistent"),
-                ),
-                new Padding(
-                  padding: const EdgeInsets.only(top: 10.0),
-                ),
-                new RaisedButton(
-                  onPressed: _showModalSheet,
-                  child: new Text("Modal"),
-                ),
-              ],
-            )),
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            new RaisedButton(
+              onPressed: _showPersBottomSheetCallBack,
+              child: new Text("Persistent"),
+            ),
+            new Padding(
+              padding: const EdgeInsets.only(top: 10.0),
+            ),
+            new RaisedButton(
+              onPressed: _showModalSheet,
+              child: new Text("Modal"),
+            ),
+          ],
+        )),
       ),
     );
   }

@@ -6,6 +6,9 @@
 main() {
   Television television = new Television();
   television.turnOn();
+
+  SmartTelevision smartTelevision = new SmartTelevision();
+  smartTelevision.updateApp();
 }
 
 class Television {

@@ -1,10 +1,15 @@
-import 'package:flutter/material.dart';
+import 'dart:async';
+
 import 'package:fluro/fluro.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/physics.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_demo_new/navigation.dart';
 import 'package:flutter_demo_new/widget/a_gridTest.dart';
 import 'package:flutter_demo_new/widget/b_layout.dart';
 import 'package:flutter_demo_new/widget/d_dynamicWidget.dart';
 import 'package:flutter_demo_new/widget/e_AlertDialogContent.dart';
+import 'package:flutter_demo_new/widget/event_bus/colors.dart';
 import 'package:flutter_demo_new/widget/f_dialogSetStatus.dart';
 import 'package:flutter_demo_new/widget/g_PositionFix.dart';
 import 'package:flutter_demo_new/widget/h_nullOrContainer.dart';
@@ -17,23 +22,78 @@ import 'package:flutter_demo_new/widget/n_bottom_sheet.dart';
 import 'package:flutter_demo_new/widget/p_custom_scroll_view.dart';
 import 'package:flutter_demo_new/widget/q_image_picker.dart';
 import 'package:flutter_demo_new/widget/r_listview_in_listview.dart';
+import 'package:flutter_demo_new/widget/rxdart_and_pull_to_refresh/blocs/application_bloc.dart';
+import 'package:flutter_demo_new/widget/rxdart_and_pull_to_refresh/blocs/bloc_provider.dart';
+import 'package:flutter_demo_new/widget/rxdart_and_pull_to_refresh/blocs/main_bloc.dart';
+import 'package:flutter_demo_new/widget/rxdart_and_pull_to_refresh/ze_pull_to_refresh.dart';
 import 'package:flutter_demo_new/widget/s_dynamic_textField.dart';
-import 'package:flutter_demo_new/widget/t_only_column.dart';
 import 'package:flutter_demo_new/widget/stream_bloc/x_stream_builder.dart';
-import 'package:flutter_demo_new/widget/stream_bloc/bloc.dart';
-import 'package:flutter_demo_new/widget/widgets/explorer.dart';
-import 'package:flutter_demo_new/widget/x_futureBuilder.dart';
-
+import 'package:flutter_demo_new/widget/t_only_column.dart';
 import 'package:flutter_demo_new/widget/v_keyboard_textField.dart';
 import 'package:flutter_demo_new/widget/w_animation.dart';
-
-import 'package:flutter_demo_new/widget/webview_flutter/main_page.dart';
 import 'package:flutter_demo_new/widget/webview_with_tabbar/first_page.dart';
-
+import 'package:flutter_demo_new/widget/widgets/explorer.dart';
+import 'package:flutter_demo_new/widget/x_futureBuilder.dart';
+import 'package:flutter_demo_new/widget/z_flutter_webview_demo_offcial.dart';
+import 'package:flutter_demo_new/widget/za_refresh.dart';
+import 'package:flutter_demo_new/widget/zb_image_view.dart';
+import 'package:flutter_demo_new/widget/zc_choice_chip.dart';
+import 'package:flutter_demo_new/widget/zd_list_dropdownbutton.dart';
+import 'package:flutter_demo_new/widget/ze_RaisedButton.dart';
+import 'package:flutter_demo_new/widget/zf_custom_router.dart';
+import 'package:flutter_demo_new/widget/zg_appBar_status_bar_color.dart';
+import 'package:flutter_demo_new/widget/zh_fadeTransition.dart';
+import 'package:flutter_demo_new/widget/zi_PopupRouteDemo.dart';
+import 'package:flutter_demo_new/widget/event_bus/event.dart';
+import 'package:flutter_demo_new/widget/zj_event_bus.dart';
+import 'package:flutter_demo_new/widget/zk_children_callback_parent.dart';
+import 'package:flutter_demo_new/widget/zl_icon_click_effect.dart';
+import 'package:flutter_demo_new/widget/zm_key.dart';
 import 'package:flutter_webview_plugin/flutter_webview_plugin.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-void main() => runApp(MyApp());
+// void main() => runApp(MyApp());
+void main() => runApp(BlocProvider<ApplicationBloc>(
+      bloc: ApplicationBloc(),
+      child: BlocProvider(
+        bloc: MainBloc(),
+        child: MyApp(),
+      ),
+    ));
+
+var img = {
+  "url":
+      "https://gss3.bdstatic.com/7Po3dSag_xI4khGkpoWK1HF6hhy/baike/w%3D268%3Bg%3D0/sign=8b64bcc23aa85edffa8cf925716f6e1e/03087bf40ad162d9c586b78e1fdfa9ec8a13cd3c.jpg",
+  "file": "",
+  "key": 2,
+};
+
+var imgs = [
+  {
+    "url":
+        "http://src.resxz.eqh5.com/qngroup001%2Fu4456511%2F1%2F0%2Fb9e736952c8b46a2bc5bdddf86020a7b.jpg?e=1564471965&token=JkbWPquRXw2qZpNqeM9Tja4rKlZmK0xSIoX-gOki:A9Zi6czfvkYv4c3ueh4QP3XadJY=",
+    "key": 1,
+  },
+  {
+    "url":
+        "https://gss3.bdstatic.com/7Po3dSag_xI4khGkpoWK1HF6hhy/baike/w%3D268%3Bg%3D0/sign=8b64bcc23aa85edffa8cf925716f6e1e/03087bf40ad162d9c586b78e1fdfa9ec8a13cd3c.jpg",
+    "file": "",
+    "key": 2,
+  },
+  {
+    "url":
+        "http://src.resxz.eqh5.com/qngroup001%2Fu4456511%2F1%2F0%2F681d161ae89645eaa06596303a5e5603.jpg?e=1564472069&token=JkbWPquRXw2qZpNqeM9Tja4rKlZmK0xSIoX-gOki:YGOzv5s6YqFVt0M0plvL6lAKaLA=",
+    "file": "",
+    "key": 3,
+  },
+  {
+    "url":
+        "http://src.resxz.eqh5.com/qngroup001%2Fu4456511%2F1%2F0%2F0ade3d7897804e4396f59f564164e0a4.jpg?e=1564472265&token=JkbWPquRXw2qZpNqeM9Tja4rKlZmK0xSIoX-gOki:g-MXDddbg8L3eEYDtCz_suMeuJE=",
+    "file": "",
+    "key": 4,
+  },
+];
 
 class MyApp extends StatelessWidget {
   MyApp() {
@@ -42,72 +102,103 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // zg_appBar_status_bar_color.dart
+    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+      statusBarColor: Colors.red,
+      statusBarIconBrightness: Brightness.dark,
+      systemNavigationBarColor: Colors.red,
+      systemNavigationBarIconBrightness: Brightness.dark,
+    ));
+
     final FlutterWebviewPlugin flutterWebViewPlugin = FlutterWebviewPlugin();
 
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      routes: {
-        '/': (BuildContext context) =>
-            MyHomePage(title: 'Flutter Demo Home Page'),
+    return new RefreshConfiguration(
+      headerBuilder: () => WaterDropHeader(),
+      // 配置默认头部指示器,假如你每个页面的头部指示器都一样的话,你需要设置这个
+      footerBuilder: () => ClassicFooter(),
+      // 配置默认底部指示器
+      headerTriggerDistance: 80.0,
+      // 头部触发刷新的越界距离
+      springDescription:
+          SpringDescription(stiffness: 170, damping: 16, mass: 1.9),
+      // 自定义回弹动画,三个属性值意义请查询flutter api
+      maxOverScrollExtent: 100,
+      //头部最大可以拖动的范围,如果发生冲出视图范围区域,请设置这个属性
+      maxUnderScrollExtent: 0,
+      // 底部最大可以拖动的范围
+      enableScrollWhenRefreshCompleted: true,
+      //这个属性不兼容PageView和TabBarView,如果你特别需要TabBarView左右滑动,你需要把它设置为true
+      enableLoadingWhenFailed: true,
+      //在加载失败的状态下,用户仍然可以通过手势上拉来触发加载更多
+      hideFooterWhenNotFull: false,
+      // Viewport不满一屏时,禁用上拉加载更多功能
+      enableBallisticLoad: true,
+      // 可以通过惯性滑动触发加载更多
+      child: new MaterialApp(
+        title: 'Flutter Demo',
+        theme: ThemeData(
+          primarySwatch: Colors.blue,
+        ),
+        routes: {
+          '/': (BuildContext context) =>
+              MyHomePage(title: 'Flutter Demo Home Page'),
 
-        /// 全局 widget webview
-        "/widget_webview": (context) => new SafeArea(
-              /// usage: Navigator.of(context).pushNamed('/widget', arguments: "https://www.qq.com")
-              child: WebviewScaffold(
-                // appBar: new AppBar(),
-                url: ModalRoute.of(context).settings.arguments,
-                withJavascript: true,
-                withZoom: true,
-                withLocalStorage: true,
-                // show a default CircularProgressIndicator
-                hidden: true,
-                bottomNavigationBar: BottomAppBar(
-                  child: new Container(
-                    height: 44.0,
-                    decoration: new BoxDecoration(
-                      color: Colors.white,
-                    ),
-                    child: new Row(
-                      children: <Widget>[
-                        new IconButton(
-                          color: Theme.of(context).primaryColor,
-                          icon: const Icon(Icons.arrow_back_ios),
-                          onPressed: () {
-                            flutterWebViewPlugin.goBack();
-                          },
-                        ),
-                        new Expanded(
-                          child: new Row(
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            children: <Widget>[
-                              new IconButton(
-                                icon: const Icon(Icons.autorenew),
-                                onPressed: () {
-                                  flutterWebViewPlugin.reload();
-                                },
-                              ),
-                              new IconButton(
-                                icon: const Icon(Icons.close),
-                                color: Theme.of(context).primaryColor,
-                                onPressed: () {
-                                  /// Close launched WebView。通过 routes 打开的 webview 不起作用
-                                  /// flutterWebViewPlugin.close();
-                                  Navigator.of(context).pop();
-                                },
-                              ),
-                            ],
+          /// 全局 widget webview
+          "/widget_webview": (context) => new SafeArea(
+                /// usage: Navigator.of(context).pushNamed('/widget', arguments: "https://www.qq.com")
+                child: WebviewScaffold(
+                  // appBar: new AppBar(),
+                  url: ModalRoute.of(context).settings.arguments,
+                  withJavascript: true,
+                  withZoom: true,
+                  withLocalStorage: true,
+                  // show a default CircularProgressIndicator
+                  hidden: true,
+                  bottomNavigationBar: BottomAppBar(
+                    child: new Container(
+                      height: 44.0,
+                      decoration: new BoxDecoration(
+                        color: Colors.white,
+                      ),
+                      child: new Row(
+                        children: <Widget>[
+                          new IconButton(
+                            color: Theme.of(context).primaryColor,
+                            icon: const Icon(Icons.arrow_back_ios),
+                            onPressed: () {
+                              flutterWebViewPlugin.goBack();
+                            },
                           ),
-                        ),
-                      ],
+                          new Expanded(
+                            child: new Row(
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              children: <Widget>[
+                                new IconButton(
+                                  icon: const Icon(Icons.autorenew),
+                                  onPressed: () {
+                                    flutterWebViewPlugin.reload();
+                                  },
+                                ),
+                                new IconButton(
+                                  icon: const Icon(Icons.close),
+                                  color: Theme.of(context).primaryColor,
+                                  onPressed: () {
+                                    /// Close launched WebView。通过 routes 打开的 webview 不起作用
+                                    /// flutterWebViewPlugin.close();
+                                    Navigator.of(context).pop();
+                                  },
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 ),
               ),
-            ),
-      },
+        },
+      ),
     );
   }
 }
@@ -121,14 +212,124 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  Color _primaryColor;
+  StreamSubscription _colorSubscription;
+
+  @override
+  void dispose() {
+    super.dispose();
+    //取消订阅
+    _colorSubscription.cancel();
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _setThemeColor();
+    //订阅eventbus
+    _colorSubscription = eventBus.on<ThemeColorEvent>().listen((event) {
+      //缓存主题色
+      _cacheColor(event.colorStr);
+      Color color = AppColors.getColor(event.colorStr);
+      setState(() {
+        _primaryColor = color;
+      });
+    });
+  }
+
+  _cacheColor(String colorStr) async {
+    SharedPreferences sp = await SharedPreferences.getInstance();
+    sp.setString("themeColorStr", colorStr);
+  }
+
+  Future<String> _getCacheColor(String colorKey) async {
+    SharedPreferences sp = await SharedPreferences.getInstance();
+    String colorStr = sp.getString(colorKey);
+    return colorStr;
+  }
+
+  void _setThemeColor() async {
+    String cacheColorStr = await _getCacheColor("themeColorStr");
+    setState(() {
+      _primaryColor = AppColors.getColor(cacheColorStr);
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: _primaryColor,
         title: Text(widget.title),
       ),
       body: new ListView(
         children: <Widget>[
+          new ListTile(
+            trailing: new Icon(Icons.keyboard_arrow_right),
+            title: new Text("flutter key 的使用"),
+            onTap: () {
+              Navigator.of(context).push(
+                new MaterialPageRoute(builder: (ctx) {
+                  return new ScreenPage();
+                }),
+              );
+            },
+          ),
+          new ListTile(
+            trailing: new Icon(Icons.keyboard_arrow_right),
+            title: new Text("列表应该仿Twitter点赞动画，setState并保持列表的状态不变"),
+            onTap: () {
+              Navigator.of(context).push(
+                new MaterialPageRoute(builder: (ctx) {
+                  return new ListTwitterAnimationPage();
+                }),
+              );
+            },
+          ),
+          new ListTile(
+            trailing: new Icon(Icons.keyboard_arrow_right),
+            title: new Text("children Widget callback Parent Widget"),
+            onTap: () {
+              Navigator.of(context).push(
+                new MaterialPageRoute(builder: (ctx) {
+                  return new ChildToParentPage();
+                }),
+              );
+            },
+          ),
+          new ListTile(
+            trailing: new Icon(Icons.keyboard_arrow_right),
+            title: new Text("event_bus"),
+            onTap: () {
+              Navigator.of(context).push(
+                new MaterialPageRoute(builder: (ctx) {
+                  return new EventBusPage();
+                }),
+              );
+            },
+          ),
+          new ListTile(
+            trailing: new Icon(Icons.keyboard_arrow_right),
+            title: new Text("防微信朋友圈 点赞评论 弹窗"),
+            onTap: () {
+              Navigator.of(context).push(
+                new MaterialPageRoute(builder: (ctx) {
+                  return new PopupRoutePageDemo();
+                }),
+              );
+            },
+          ),
+          new ListTile(
+            trailing: new Icon(Icons.keyboard_arrow_right),
+            title: new Text("pull_to_refresh"),
+            onTap: () {
+              Navigator.of(context).push(
+                new MaterialPageRoute(builder: (ctx) {
+                  return new PullToRefreshPage();
+                }),
+              );
+            },
+          ),
           new ListTile(
             trailing: new Icon(Icons.keyboard_arrow_right),
             title: new Text("基本表单"),
@@ -436,17 +637,109 @@ class _MyHomePageState extends State<MyHomePage> {
               );
             },
           ),
-//          new ListTile(
-//            trailing: new Icon(Icons.keyboard_arrow_right),
-//            title: new Text("flutter_mvp"),
-//            onTap: () {
-//              Navigator.of(context).push(
-//                new MaterialPageRoute(builder: (ctx) {
-//                  return new ContactsPage();
-//                }),
-//              );
-//            },
-//          ),
+          new ListTile(
+            trailing: new Icon(Icons.keyboard_arrow_right),
+            title: new Text("flutter_webview_demo_offcial"),
+            onTap: () {
+              Navigator.of(context).push(
+                new MaterialPageRoute(builder: (ctx) {
+                  return new WebViewExample();
+                }),
+              );
+            },
+          ),
+          new ListTile(
+            trailing: new Icon(Icons.keyboard_arrow_right),
+            title: new Text("下拉刷新，上拉加载更多"),
+            onTap: () {
+              Navigator.of(context).push(
+                new MaterialPageRoute(builder: (ctx) {
+                  return new RefreshAndLoadMorePage();
+                }),
+              );
+            },
+          ),
+          new ListTile(
+            trailing: new Icon(Icons.keyboard_arrow_right),
+            title: new Text("图片查看"),
+            onTap: () {
+              Navigator.of(context).push(
+                new MaterialPageRoute(builder: (ctx) {
+                  return new ViewDialog(
+                    img: img,
+                    imgs: imgs,
+                    width: MediaQuery.of(context).size.width,
+                  );
+                }),
+              );
+            },
+          ),
+          new ListTile(
+            trailing: new Icon(Icons.keyboard_arrow_right),
+            title: new Text("choice_chips"),
+            onTap: () {
+              Navigator.of(context).push(
+                new MaterialPageRoute(builder: (ctx) {
+                  return new MyThreeOptions();
+                }),
+              );
+            },
+          ),
+          new ListTile(
+            trailing: new Icon(Icons.keyboard_arrow_right),
+            title: new Text("list_dropdownbutton"),
+            onTap: () {
+              Navigator.of(context).push(
+                new MaterialPageRoute(builder: (ctx) {
+                  return new FormEG();
+                }),
+              );
+            },
+          ),
+          new ListTile(
+            trailing: new Icon(Icons.keyboard_arrow_right),
+            title: new Text("RaisedButton width and height"),
+            onTap: () {
+              Navigator.of(context).push(
+                new MaterialPageRoute(builder: (ctx) {
+                  return new RaisedButtonWidthHeightPage();
+                }),
+              );
+            },
+          ),
+          new ListTile(
+            trailing: new Icon(Icons.keyboard_arrow_right),
+            title: new Text("AppBar status bar color"),
+            onTap: () {
+              Navigator.of(context).push(
+                new MaterialPageRoute(builder: (ctx) {
+                  return new CustomStatusBarColor();
+                }),
+              );
+            },
+          ),
+          new ListTile(
+            trailing: new Icon(Icons.keyboard_arrow_right),
+            title: new Text("自定义路由 跳转"),
+            onTap: () {
+              Navigator.of(context).push(
+                new MaterialPageRoute(builder: (ctx) {
+                  return new CustomRouter();
+                }),
+              );
+            },
+          ),
+          new ListTile(
+            trailing: new Icon(Icons.keyboard_arrow_right),
+            title: new Text("FadeTransition 动画"),
+            onTap: () {
+              Navigator.of(context).push(
+                new MaterialPageRoute(builder: (ctx) {
+                  return new FadeTransitionDemo();
+                }),
+              );
+            },
+          ),
         ],
       ), // This trailing comma makes auto-formatting nicer for build methods.
     );
