@@ -21,17 +21,17 @@ class ListTwitterAnimationPageState extends State<ListTwitterAnimationPage> {
     super.initState();
     _itemDemoList = [
       new ItemDemo(true, "new"),
+      new ItemDemo(false, "new"),
       new ItemDemo(true, "new"),
-      new ItemDemo(true, "new"),
-      new ItemDemo(true, "new"),
+      new ItemDemo(false, "new"),
     ];
   }
 
   void doLike(int index, bool like) async {
-    await new Future.delayed(new Duration(milliseconds: 1000));
-    setState(() {
-      _itemDemoList[index].liked = like;
-    });
+    // await new Future.delayed(new Duration(milliseconds: 1000));
+    // setState(() {
+    //   _itemDemoList[index].liked = like;
+    // });
   }
 
   @override
@@ -40,8 +40,7 @@ class ListTwitterAnimationPageState extends State<ListTwitterAnimationPage> {
       appBar: new AppBar(
         title: new Text("lala"),
       ),
-      body: new Container(
-          child: new ListView.builder(
+      body: new ListView.builder(
         itemCount: _itemDemoList.length + 1,
         itemBuilder: (BuildContext context, int index) {
           if (index < _itemDemoList.length) {
@@ -49,7 +48,7 @@ class ListTwitterAnimationPageState extends State<ListTwitterAnimationPage> {
               _itemDemoList[index],
               index,
               doLike,
-              key: new UniqueKey(),
+              key: UniqueKey(),
             );
           } else {
             return Row(
@@ -74,7 +73,7 @@ class ListTwitterAnimationPageState extends State<ListTwitterAnimationPage> {
             );
           }
         },
-      )),
+      ),
     );
   }
 }
@@ -100,13 +99,14 @@ class ItemPageState extends State<ItemPage> {
         children: <Widget>[
           new Text(widget.index.toString()),
           new LikeButton(
-            width: 40.0,
+            width: 80.0,
+            like: widget.demo.liked,
             onIconClicked: (bool isLike) {
               bool like = widget.demo.liked;
-              // setState(() {
-              //   widget.demo.liked = !like;
-              // });
-              widget.callback(widget.index, !like);
+              setState(() {
+                widget.demo.liked = !like;
+              });
+              // widget.callback(widget.index, !like);
             },
           ),
           new Text(widget.demo.liked.toString()),

@@ -49,6 +49,7 @@ import 'package:flutter_demo_new/widget/zj_event_bus.dart';
 import 'package:flutter_demo_new/widget/zk_children_callback_parent.dart';
 import 'package:flutter_demo_new/widget/zl_icon_click_effect.dart';
 import 'package:flutter_demo_new/widget/zm_key.dart';
+import 'package:flutter_demo_new/widget/zn_listview_key.dart';
 import 'package:flutter_webview_plugin/flutter_webview_plugin.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -264,6 +265,17 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
       body: new ListView(
         children: <Widget>[
+          new ListTile(
+            trailing: new Icon(Icons.keyboard_arrow_right),
+            title: new Text("flutter listview key"),
+            onTap: () {
+              Navigator.of(context).push(
+                new MaterialPageRoute(builder: (ctx) {
+                  return new ListviewKeyPage();
+                }),
+              );
+            },
+          ),
           new ListTile(
             trailing: new Icon(Icons.keyboard_arrow_right),
             title: new Text("flutter key 的使用"),
