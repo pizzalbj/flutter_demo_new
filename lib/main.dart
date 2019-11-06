@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/physics.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_demo_new/navigation.dart';
+import 'package:flutter_demo_new/widget/a_demo.dart';
 import 'package:flutter_demo_new/widget/a_gridTest.dart';
 import 'package:flutter_demo_new/widget/b_layout.dart';
 import 'package:flutter_demo_new/widget/d_dynamicWidget.dart';
@@ -50,6 +51,7 @@ import 'package:flutter_demo_new/widget/zk_children_callback_parent.dart';
 import 'package:flutter_demo_new/widget/zl_icon_click_effect.dart';
 import 'package:flutter_demo_new/widget/zm_key.dart';
 import 'package:flutter_demo_new/widget/zn_listview_key.dart';
+import 'package:flutter_demo_new/widget/zo_widget_not_rebuild.dart';
 import 'package:flutter_webview_plugin/flutter_webview_plugin.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -267,7 +269,29 @@ class _MyHomePageState extends State<MyHomePage> {
         children: <Widget>[
           new ListTile(
             trailing: new Icon(Icons.keyboard_arrow_right),
-            title: new Text("flutter listview key"),
+            title: new Text("Demo"),
+            onTap: () {
+              // Navigator.of(context).push(
+              //   new MaterialPageRoute(builder: (ctx) {
+              //     return new ProgressAnimatedButton();
+              //   }),
+              // );
+            },
+          ),
+          new ListTile(
+            trailing: new Icon(Icons.keyboard_arrow_right),
+            title: new Text("flutter防止widget rebuild终极解决办法"),
+            onTap: () {
+              Navigator.of(context).push(
+                new MaterialPageRoute(builder: (ctx) {
+                  return new WidgetShouldRebuildPage();
+                }),
+              );
+            },
+          ),
+          new ListTile(
+            trailing: new Icon(Icons.keyboard_arrow_right),
+            title: new Text("listview key 的作用"),
             onTap: () {
               Navigator.of(context).push(
                 new MaterialPageRoute(builder: (ctx) {
@@ -278,7 +302,7 @@ class _MyHomePageState extends State<MyHomePage> {
           ),
           new ListTile(
             trailing: new Icon(Icons.keyboard_arrow_right),
-            title: new Text("flutter key 的使用"),
+            title: new Text("key 的作用"),
             onTap: () {
               Navigator.of(context).push(
                 new MaterialPageRoute(builder: (ctx) {
@@ -289,7 +313,7 @@ class _MyHomePageState extends State<MyHomePage> {
           ),
           new ListTile(
             trailing: new Icon(Icons.keyboard_arrow_right),
-            title: new Text("列表应该仿Twitter点赞动画，setState并保持列表的状态不变"),
+            title: new Text("列表应该仿 Twitter 点赞动画，setState 并保持列表点赞的状态不变"),
             onTap: () {
               Navigator.of(context).push(
                 new MaterialPageRoute(builder: (ctx) {
@@ -629,7 +653,7 @@ class _MyHomePageState extends State<MyHomePage> {
           ),
           new ListTile(
             trailing: new Icon(Icons.keyboard_arrow_right),
-            title: new Text("stream_builder"),
+            title: new Text("StreamBuilder"),
             onTap: () {
               Navigator.of(context).push(
                 new MaterialPageRoute(builder: (ctx) {
