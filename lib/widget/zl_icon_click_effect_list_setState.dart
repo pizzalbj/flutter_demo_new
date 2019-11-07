@@ -28,10 +28,10 @@ class ListTwitterAnimationPageState extends State<ListTwitterAnimationPage> {
   }
 
   void doLike(int index, bool like) async {
-    // await new Future.delayed(new Duration(milliseconds: 1000));
-    // setState(() {
-    //   _itemDemoList[index].liked = like;
-    // });
+    await new Future.delayed(new Duration(milliseconds: 1000));
+    setState(() {
+      _itemDemoList[index].liked = like;
+    });
   }
 
   @override

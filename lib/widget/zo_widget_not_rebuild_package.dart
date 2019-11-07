@@ -1,3 +1,5 @@
+// https://segmentfault.com/a/1190000020264112
+
 library should_rebuild_widget;
 
 import 'package:flutter/material.dart';

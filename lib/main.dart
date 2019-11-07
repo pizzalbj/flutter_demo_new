@@ -48,10 +48,12 @@ import 'package:flutter_demo_new/widget/zi_PopupRouteDemo.dart';
 import 'package:flutter_demo_new/widget/event_bus/event.dart';
 import 'package:flutter_demo_new/widget/zj_event_bus.dart';
 import 'package:flutter_demo_new/widget/zk_children_callback_parent.dart';
-import 'package:flutter_demo_new/widget/zl_icon_click_effect.dart';
+import 'package:flutter_demo_new/widget/zl_icon_click_effect_list_setState.dart';
+import 'package:flutter_demo_new/widget/zl_icon_click_effect_stream_builder.dart';
 import 'package:flutter_demo_new/widget/zm_key.dart';
 import 'package:flutter_demo_new/widget/zn_listview_key.dart';
 import 'package:flutter_demo_new/widget/zo_widget_not_rebuild.dart';
+import 'package:flutter_demo_new/widget/zp_setstate_widget_rebuild.dart';
 import 'package:flutter_webview_plugin/flutter_webview_plugin.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -280,7 +282,18 @@ class _MyHomePageState extends State<MyHomePage> {
           ),
           new ListTile(
             trailing: new Icon(Icons.keyboard_arrow_right),
-            title: new Text("flutter防止widget rebuild终极解决办法"),
+            title: new Text("Flutter setState 父组件 兄弟组件 子组件 都会 rebuild"),
+            onTap: () {
+              Navigator.of(context).push(
+                new MaterialPageRoute(builder: (ctx) {
+                  return new SetStateWidgetRebuildPage();
+                }),
+              );
+            },
+          ),
+          new ListTile(
+            trailing: new Icon(Icons.keyboard_arrow_right),
+            title: new Text("Flutter setState 防止 widget rebuild 的终极解决办法"),
             onTap: () {
               Navigator.of(context).push(
                 new MaterialPageRoute(builder: (ctx) {
@@ -291,18 +304,7 @@ class _MyHomePageState extends State<MyHomePage> {
           ),
           new ListTile(
             trailing: new Icon(Icons.keyboard_arrow_right),
-            title: new Text("listview key 的作用"),
-            onTap: () {
-              Navigator.of(context).push(
-                new MaterialPageRoute(builder: (ctx) {
-                  return new ListviewKeyPage();
-                }),
-              );
-            },
-          ),
-          new ListTile(
-            trailing: new Icon(Icons.keyboard_arrow_right),
-            title: new Text("key 的作用"),
+            title: new Text("key 的用法"),
             onTap: () {
               Navigator.of(context).push(
                 new MaterialPageRoute(builder: (ctx) {
@@ -313,7 +315,31 @@ class _MyHomePageState extends State<MyHomePage> {
           ),
           new ListTile(
             trailing: new Icon(Icons.keyboard_arrow_right),
-            title: new Text("列表应该仿 Twitter 点赞动画，setState 并保持列表点赞的状态不变"),
+            title: new Text("Listview key 的用法"),
+            onTap: () {
+              Navigator.of(context).push(
+                new MaterialPageRoute(builder: (ctx) {
+                  return new ListviewKeyPage();
+                }),
+              );
+            },
+          ),
+          new ListTile(
+            trailing: new Icon(Icons.keyboard_arrow_right),
+            title: new Text(
+                "仿 Twitter 点赞动画（列表采用 StreamBuilder 构建），setState 并保持列表点赞的状态不变"),
+            onTap: () {
+              Navigator.of(context).push(
+                new MaterialPageRoute(builder: (ctx) {
+                  return new ListTwitterAnimationStreamBuilderPage();
+                }),
+              );
+            },
+          ),
+          new ListTile(
+            trailing: new Icon(Icons.keyboard_arrow_right),
+            title: new Text(
+                "仿 Twitter 点赞动画（列表采用 flutter List 构建），setState 并保持列表点赞的状态不变"),
             onTap: () {
               Navigator.of(context).push(
                 new MaterialPageRoute(builder: (ctx) {
@@ -324,7 +350,7 @@ class _MyHomePageState extends State<MyHomePage> {
           ),
           new ListTile(
             trailing: new Icon(Icons.keyboard_arrow_right),
-            title: new Text("children Widget callback Parent Widget"),
+            title: new Text("子组件callback父组件"),
             onTap: () {
               Navigator.of(context).push(
                 new MaterialPageRoute(builder: (ctx) {
@@ -335,7 +361,7 @@ class _MyHomePageState extends State<MyHomePage> {
           ),
           new ListTile(
             trailing: new Icon(Icons.keyboard_arrow_right),
-            title: new Text("event_bus"),
+            title: new Text("event_bus 的使用"),
             onTap: () {
               Navigator.of(context).push(
                 new MaterialPageRoute(builder: (ctx) {
@@ -346,7 +372,7 @@ class _MyHomePageState extends State<MyHomePage> {
           ),
           new ListTile(
             trailing: new Icon(Icons.keyboard_arrow_right),
-            title: new Text("防微信朋友圈 点赞评论 弹窗"),
+            title: new Text("微信朋友圈 点赞评论 弹窗"),
             onTap: () {
               Navigator.of(context).push(
                 new MaterialPageRoute(builder: (ctx) {
