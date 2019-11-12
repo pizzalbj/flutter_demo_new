@@ -52,6 +52,7 @@ import 'package:flutter_demo_new/widget/zl_icon_click_effect_list_setState.dart'
 import 'package:flutter_demo_new/widget/zl_icon_click_effect_stream_builder.dart';
 import 'package:flutter_demo_new/widget/zm_key.dart';
 import 'package:flutter_demo_new/widget/zn_listview_key.dart';
+import 'package:flutter_demo_new/widget/zo_webview_loading.dart';
 import 'package:flutter_demo_new/widget/zo_widget_not_rebuild.dart';
 import 'package:flutter_demo_new/widget/zp_setstate_widget_rebuild.dart';
 import 'package:flutter_webview_plugin/flutter_webview_plugin.dart';
@@ -278,6 +279,19 @@ class _MyHomePageState extends State<MyHomePage> {
               //     return new ProgressAnimatedButton();
               //   }),
               // );
+            },
+          ),
+          new ListTile(
+            trailing: new Icon(Icons.keyboard_arrow_right),
+            title: new Text("webview loading progress"),
+            onTap: () {
+              Navigator.of(context).push(
+                new MaterialPageRoute(builder: (ctx) {
+                  return new WebviewLoadingPage(
+                    title: "Webview Loading",
+                  );
+                }),
+              );
             },
           ),
           new ListTile(

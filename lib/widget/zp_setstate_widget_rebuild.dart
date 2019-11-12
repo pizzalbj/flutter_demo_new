@@ -50,7 +50,12 @@ class _SetStateWidgetRebuildPageState extends State<SetStateWidgetRebuildPage> {
       ),
       floatingActionButton: new FloatingActionButton(
         child: new Text("change"),
-        onPressed: () {
+        onPressed: () async {
+          // 第一次 赋相同的值，会不会也 rebuild
+          setState(() {
+            color = Colors.red;
+          });
+          await Future.delayed(new Duration(milliseconds: 5000));
           setState(() {
             color = Color.fromRGBO(Random().nextInt(256), Random().nextInt(256),
                 Random().nextInt(256), 1);

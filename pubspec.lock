@@ -118,18 +118,18 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
+  flutter_progress_hud:
+    dependency: "direct main"
+    description:
+      name: flutter_progress_hud
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "1.0.2"
   flutter_test:
     dependency: "direct dev"
     description: flutter
     source: sdk
     version: "0.0.0"
-  flutter_user_agent:
-    dependency: "direct main"
-    description:
-      name: flutter_user_agent
-      url: "https://pub.flutter-io.cn"
-    source: hosted
-    version: "1.0.1"
   flutter_webview_plugin:
     dependency: "direct main"
     description:
