@@ -57,6 +57,7 @@ import 'package:flutter_demo_new/widget/zo_widget_not_rebuild.dart';
 import 'package:flutter_demo_new/widget/zp_setstate_widget_rebuild.dart';
 import 'package:flutter_demo_new/widget/zq_circle_gesture.dart';
 import 'package:flutter_demo_new/widget/zr_complex_page_and_refresh_loadmore.dart';
+import 'package:flutter_demo_new/widget/zs_popup_route.dart';
 import 'package:flutter_webview_plugin/flutter_webview_plugin.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -422,11 +423,24 @@ class _MyHomePageState extends State<MyHomePage> {
           ),
           new ListTile(
             trailing: new Icon(Icons.keyboard_arrow_right),
-            title: new Text("微信朋友圈 点赞评论 弹窗"),
+            title: new Text(
+                "微信朋友圈 点赞评论 弹窗。本来打算用PopupRoute做的，但是如何定位窗口的位置还不清楚，故使用了setState"),
             onTap: () {
               Navigator.of(context).push(
                 new MaterialPageRoute(builder: (ctx) {
-                  return new PopupRoutePageDemo();
+                  // return new PopupRoutePageDemo();
+                  return new WeChatLikedPageDemo();
+                }),
+              );
+            },
+          ),
+          new ListTile(
+            trailing: new Icon(Icons.keyboard_arrow_right),
+            title: new Text("使用PopupRoute自定义实现PopupWindow功能"),
+            onTap: () {
+              Navigator.of(context).push(
+                new MaterialPageRoute(builder: (ctx) {
+                  return new PopupRoutePage();
                 }),
               );
             },

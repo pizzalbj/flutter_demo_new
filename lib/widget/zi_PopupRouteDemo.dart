@@ -9,12 +9,12 @@ class Post {
   Post(this.content, this.showDialog);
 }
 
-class PopupRoutePageDemo extends StatefulWidget {
+class WeChatLikedPageDemo extends StatefulWidget {
   @override
-  State<StatefulWidget> createState() => new PopupRoutePageDemoState();
+  State<StatefulWidget> createState() => new WeChatLikedPageDemoState();
 }
 
-class PopupRoutePageDemoState extends State<PopupRoutePageDemo> {
+class WeChatLikedPageDemoState extends State<WeChatLikedPageDemo> {
   List<Post> _list = [
     new Post("0", false),
     new Post("1", false),
