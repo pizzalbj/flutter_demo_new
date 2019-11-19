@@ -13,7 +13,8 @@ class B {
 }
 
 class C {
-  /// type: Runtime representation of a type 类型的运行时表示。todo: 它和 T 的区别是什么
+  /// Type: Runtime representation of a type 类型的运行时表示
+  /// 接受一个任意类型的T，然后返回这个类型（注意不是这个类型的实例）
   static Type _typeOf<T>() => T;
 
   static void showA() {
@@ -31,8 +32,10 @@ void main() {
   A a = new A(1, 2);
   B b = new B("1", "2");
 
+  /// 输出 A 类型
   C.showA();
 
+  /// 输出 B 类型
   C c = new C();
   c.showB();
 }

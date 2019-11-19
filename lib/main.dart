@@ -55,6 +55,8 @@ import 'package:flutter_demo_new/widget/zn_listview_key.dart';
 import 'package:flutter_demo_new/widget/zo_webview_loading.dart';
 import 'package:flutter_demo_new/widget/zo_widget_not_rebuild.dart';
 import 'package:flutter_demo_new/widget/zp_setstate_widget_rebuild.dart';
+import 'package:flutter_demo_new/widget/zq_circle_gesture.dart';
+import 'package:flutter_demo_new/widget/zr_complex_page_and_refresh_loadmore.dart';
 import 'package:flutter_webview_plugin/flutter_webview_plugin.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -274,16 +276,50 @@ class _MyHomePageState extends State<MyHomePage> {
             trailing: new Icon(Icons.keyboard_arrow_right),
             title: new Text("Demo"),
             onTap: () {
-              // Navigator.of(context).push(
-              //   new MaterialPageRoute(builder: (ctx) {
-              //     return new ProgressAnimatedButton();
-              //   }),
-              // );
+              Navigator.of(context).push(
+                new MaterialPageRoute(builder: (ctx) {
+                  return new ScrollableDemo();
+                }),
+              );
+            },
+          ),
+          // new ListTile(
+          //   trailing: new Icon(Icons.keyboard_arrow_right),
+          //   title: new Text("画个圆圈，并在上面有两个Gesture检测"),
+          //   onTap: () {
+          //     Navigator.of(context).push(
+          //       new MaterialPageRoute(builder: (ctx) {
+          //         return new CircularSliderPaint(
+          //           init: 2,
+          //           end: 4,
+          //           intervals: 6,
+          //           baseColor: Colors.red,
+          //           selectionColor: Colors.yellow,
+          //           child: new Text("circul"),
+          //           onSelectionChange: (data) {
+          //             print(data);
+          //           },
+          //         );
+          //       }),
+          //     );
+          //   },
+          // ),
+          new ListTile(
+            trailing: new Icon(Icons.keyboard_arrow_right),
+            title: new Text("CustomScrollView 实现复杂页面下拉刷新和加载更多"),
+            onTap: () {
+              Navigator.of(context).push(
+                new MaterialPageRoute(builder: (ctx) {
+                  return new WebviewLoadingPage(
+                    title: "Webview Loading",
+                  );
+                }),
+              );
             },
           ),
           new ListTile(
             trailing: new Icon(Icons.keyboard_arrow_right),
-            title: new Text("webview loading progress"),
+            title: new Text("webview loading progress and webview 下拉刷新"),
             onTap: () {
               Navigator.of(context).push(
                 new MaterialPageRoute(builder: (ctx) {

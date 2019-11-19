@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class AnimationButtonListPage extends StatelessWidget {
+class DemoPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return new ListView.builder(
