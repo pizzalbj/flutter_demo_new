@@ -58,6 +58,16 @@ import 'package:flutter_demo_new/widget/zp_setstate_widget_rebuild.dart';
 import 'package:flutter_demo_new/widget/zq_circle_gesture.dart';
 import 'package:flutter_demo_new/widget/zr_complex_page_and_refresh_loadmore.dart';
 import 'package:flutter_demo_new/widget/zs_popup_route.dart';
+import 'package:flutter_demo_new/widget/zt_customscrollview_appbar.dart';
+import 'package:flutter_demo_new/widget/zu_inheritedWidget.dart';
+import 'package:flutter_demo_new/widget/zv_globalkey.dart';
+import 'package:flutter_demo_new/widget/zw_callback.dart';
+import 'package:flutter_demo_new/widget/zx_valueNotifier.dart';
+import 'package:flutter_demo_new/widget/zy_webview_gestureRecognizers.dart';
+import 'package:flutter_demo_new/widget/zy_webview_gestureRecognizers_two.dart';
+import 'package:flutter_demo_new/widget/zz_safeArea.dart';
+import 'package:flutter_demo_new/widget/zza_keyboard_close.dart';
+import 'package:flutter_demo_new/widget/zzb_image_picker_rotate.dart';
 import 'package:flutter_webview_plugin/flutter_webview_plugin.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -235,7 +245,7 @@ class _MyHomePageState extends State<MyHomePage> {
   void initState() {
     super.initState();
     _setThemeColor();
-    //订阅eventbus
+    // 订阅eventbus
     _colorSubscription = eventBus.on<ThemeColorEvent>().listen((event) {
       //缓存主题色
       _cacheColor(event.colorStr);
@@ -264,6 +274,8 @@ class _MyHomePageState extends State<MyHomePage> {
     });
   }
 
+  TextEditingController _textEditingController = new TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -276,6 +288,166 @@ class _MyHomePageState extends State<MyHomePage> {
           new ListTile(
             trailing: new Icon(Icons.keyboard_arrow_right),
             title: new Text("Demo"),
+            onTap: () {
+              Navigator.of(context).push(
+                new MaterialPageRoute(builder: (ctx) {
+                  return new DemoPage();
+                }),
+              );
+            },
+          ),
+          new ListTile(
+            trailing: new Icon(Icons.keyboard_arrow_right),
+            title: new Text("image_picker 拍照后，旋转图片"),
+            onTap: () {
+              Navigator.of(context).push(
+                new MaterialPageRoute(builder: (ctx) {
+                  return new ImagePickerRotatePage();
+                }),
+              );
+            },
+          ),
+          new ListTile(
+            trailing: new Icon(Icons.keyboard_arrow_right),
+            title: new Text("点击空白关闭键盘及添加键盘ToolBar"),
+            onTap: () {
+              Navigator.of(context).push(
+                new MaterialPageRoute(builder: (ctx) {
+                  return new LoginPage5();
+                }),
+              );
+            },
+          ),
+          new ListTile(
+            trailing: new Icon(Icons.keyboard_arrow_right),
+            title: new Text("SafeArea 学习"),
+            onTap: () {
+              Navigator.of(context).push(
+                new MaterialPageRoute(builder: (ctx) {
+                  return new Scaffold(
+                    body: new CustomSafeArea(
+                      // top: false,
+                      // maintainBottomViewPadding: false,
+                      minimum: new EdgeInsets.only(top: 120),
+                      child: new Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: <Widget>[
+                          new Text("lala"),
+                          new Text("lala"),
+                          new Text("lala"),
+                          new TextFormField(
+                            controller: _textEditingController,
+                          ),
+                          new Text("lala"),
+                          new Text("lala"),
+                        ],
+                      ),
+                    ),
+                  );
+                }),
+              );
+            },
+          ),
+          new ListTile(
+            trailing: new Icon(Icons.keyboard_arrow_right),
+            title: new Text("webview gestureRecognizers 尝试 1"),
+            onTap: () {
+              Navigator.of(context).push(
+                new MaterialPageRoute(builder: (ctx) {
+                  return new WebviewGestureRecognizer();
+                }),
+              );
+            },
+          ),
+          new ListTile(
+            trailing: new Icon(Icons.keyboard_arrow_right),
+            title: new Text("webview gestureRecognizers 尝试 2"),
+            onTap: () {
+              Navigator.of(context).push(
+                new MaterialPageRoute(builder: (ctx) {
+                  return new WebviewGestureRecognizerTwo();
+                }),
+              );
+            },
+          ),
+
+          /// 这边文章，主要说的是，利用Flutter自身的框架来实现，状态管理和消息传递的内容
+          /// 通过 InheritedWidget 来保存状态
+          /// 通过 context.inheritFromWidgetOfExactType 来获取属性
+          /// 使用 ValueNotifer 来实现属性监听
+          /// 我们可以对状态管理做一个小结
+          /// Key
+          ///   保存Widget的状态，我们可以通过给对应Widget的key,来保存状态，并通过Key来拿到状态
+          ///   比如是 ObjectKey可以在列表中标记唯一的Key，来保存状态，让动画识别。
+          ///   GlobalKey，则可以保存一个状态，其他地方都可以获取。
+          /// InheritedWidget
+          ///   可以持有一个状态，共它的子树来获取
+          ///   这样子树本身可以不直接传入这个字段(这样可以避免多级的Widget时，要一层一层向下传递状态)
+          ///   还可以做不同Widget中间的状态同步
+          /// ChangeNofier
+          ///   继承这里类，我们就可以实现Flutter中的观察者模式，对属性变化做观察
+          ///   另外，我们还可以通过第三方库，比如说 Redux和ScopeModel Rx来做这个事情
+          ///   但是其基于的原理，应该也是上方的内容。
+          new ListTile(
+            trailing: new Icon(Icons.keyboard_arrow_right),
+            title: new Text("StatefulWidget通信 5：event_bus"),
+            onTap: () {
+              Navigator.of(context).push(
+                new MaterialPageRoute(builder: (ctx) {
+                  return new EventBusPage();
+                }),
+              );
+            },
+          ),
+          new ListTile(
+            trailing: new Icon(Icons.keyboard_arrow_right),
+            title: new Text("StatefulWidget通信 4：ValueNotifier"),
+            onTap: () {
+              Navigator.of(context).push(
+                new MaterialPageRoute(builder: (ctx) {
+                  return new ValueNotifierCommunication();
+                }),
+              );
+            },
+          ),
+          new ListTile(
+            trailing: new Icon(Icons.keyboard_arrow_right),
+            title: new Text("StatefulWidget通信 3：GlobalKey"),
+            onTap: () {
+              Navigator.of(context).push(
+                new MaterialPageRoute(builder: (ctx) {
+                  return new GlobalKeyPage();
+                }),
+              );
+            },
+          ),
+          new ListTile(
+            trailing: new Icon(Icons.keyboard_arrow_right),
+            title: new Text("StatefulWidget通信 2：InheritedWidget"),
+            onTap: () {
+              Navigator.of(context).push(
+                new MaterialPageRoute(builder: (ctx) {
+                  return new InheritedWidgetTestContainer();
+                }),
+              );
+            },
+          ),
+          new ListTile(
+            trailing: new Icon(Icons.keyboard_arrow_right),
+            title: new Text("StatefulWidget通信 1：callBack"),
+            onTap: () {
+              Navigator.of(context).push(
+                new MaterialPageRoute(builder: (ctx) {
+                  return new CallBackPage(
+                    title: "callBack",
+                  );
+                }),
+              );
+            },
+          ),
+          new ListTile(
+            trailing: new Icon(Icons.keyboard_arrow_right),
+            title: new Text("NotificationListener"),
             onTap: () {
               Navigator.of(context).push(
                 new MaterialPageRoute(builder: (ctx) {
@@ -305,6 +477,17 @@ class _MyHomePageState extends State<MyHomePage> {
           //     );
           //   },
           // ),
+          new ListTile(
+            trailing: new Icon(Icons.keyboard_arrow_right),
+            title: new Text("基于 CustomScrollView 实现可浮动交互的 AppBar"),
+            onTap: () {
+              Navigator.of(context).push(
+                new MaterialPageRoute(builder: (ctx) {
+                  return new CustomScrollPage();
+                }),
+              );
+            },
+          ),
           new ListTile(
             trailing: new Icon(Icons.keyboard_arrow_right),
             title: new Text("CustomScrollView 实现复杂页面下拉刷新和加载更多"),
@@ -406,17 +589,6 @@ class _MyHomePageState extends State<MyHomePage> {
               Navigator.of(context).push(
                 new MaterialPageRoute(builder: (ctx) {
                   return new ChildToParentPage();
-                }),
-              );
-            },
-          ),
-          new ListTile(
-            trailing: new Icon(Icons.keyboard_arrow_right),
-            title: new Text("event_bus 的使用"),
-            onTap: () {
-              Navigator.of(context).push(
-                new MaterialPageRoute(builder: (ctx) {
-                  return new EventBusPage();
                 }),
               );
             },

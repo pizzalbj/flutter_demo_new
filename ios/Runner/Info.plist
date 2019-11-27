@@ -43,5 +43,11 @@
 	<false/>
     <key>io.flutter.embedded_views_preview</key>
     <true/>
+    <key>NSCameraUsageDescription</key>
+    <string>想使用您的相机</string>
+    <key>NSMicrophoneUsageDescription</key>
+    <string>想使用您的麦克风</string>
+    <key>NSPhotoLibraryUsageDescription</key>
+    <string>想访问您的相册</string>
 </dict>
 </plist>

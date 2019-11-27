@@ -1,13 +1,18 @@
 import 'package:flutter/material.dart';
 
-class DemoPage extends StatelessWidget {
+class DemoPage extends StatefulWidget {
+  @override
+  State<StatefulWidget> createState() => new DemoPageState();
+}
+
+class DemoPageState extends State<DemoPage> {
+  @override
+  void initState() {
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
-    return new ListView.builder(
-      itemCount: 4,
-      itemBuilder: (BuildContext context, int index) {
-        return new Text("lala");
-      },
-    );
+    return new Text("lala");
   }
 }
