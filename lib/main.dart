@@ -68,6 +68,8 @@ import 'package:flutter_demo_new/widget/zy_webview_gestureRecognizers_two.dart';
 import 'package:flutter_demo_new/widget/zz_safeArea.dart';
 import 'package:flutter_demo_new/widget/zza_keyboard_close.dart';
 import 'package:flutter_demo_new/widget/zzb_image_picker_rotate.dart';
+import 'package:flutter_demo_new/widget/zzc_widget_fade_in_and_out.dart';
+import 'package:flutter_demo_new/widget/zzd_life_cycle.dart';
 import 'package:flutter_webview_plugin/flutter_webview_plugin.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -292,6 +294,33 @@ class _MyHomePageState extends State<MyHomePage> {
               Navigator.of(context).push(
                 new MaterialPageRoute(builder: (ctx) {
                   return new DemoPage();
+                }),
+              );
+            },
+          ),
+          new ListTile(
+            trailing: new Icon(Icons.keyboard_arrow_right),
+            title: new Text(
+                "initState、didChangeDependencies、Widgetbuild => (renderTree) => didUpdateWidget、dipose"),
+            onTap: () {
+              Navigator.of(context).push(
+                new MaterialPageRoute(builder: (ctx) {
+                  return new WidgetCyclePage(
+                    title: "life cycle",
+                  );
+                }),
+              );
+            },
+          ),
+          new ListTile(
+            trailing: new Icon(Icons.keyboard_arrow_right),
+            title: new Text("Widget fade in and out"),
+            onTap: () {
+              Navigator.of(context).push(
+                new MaterialPageRoute(builder: (ctx) {
+                  return new WidgetFadeInAndOutPage(
+                    title: "Widget fade in and out",
+                  );
                 }),
               );
             },

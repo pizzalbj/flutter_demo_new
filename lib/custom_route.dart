@@ -24,7 +24,33 @@ class PopRoute extends PopupRoute {
   @override
   Widget buildPage(BuildContext context, Animation<double> animation,
       Animation<double> secondaryAnimation) {
-    return child;
+    return FadeTransition(
+      opacity: Tween(begin: 0.0, end: 1.0).animate(CurvedAnimation(
+        parent: animation,
+        curve: Curves.fastOutSlowIn,
+      )),
+      child: child,
+    );
+
+    // todo: Flutter (Channel master, v1.10.15-pre.137)
+    // 使用包含有“窗口位移“动画的路由（如包含有SlideTransition动画的路由，MaterialPageRoute路由等），
+    // 会导致“包含有webview目标的Widget"的滚动条位置异常（位置不是一直都固定在最右方）。
+    // 丫丫网站（https://testing.yayayuer.com/home/baby）和百度都会滚动条异常，腾讯（https://www.qq.com）的总是不会，why。
+    // return SlideTransition(
+    //   position: Tween<Offset>(
+    //     begin: Offset(1.0, 0.0),
+    //     end: Offset(0.0, 0.0),
+    //   ).animate(
+    //     CurvedAnimation(
+    //       parent: animation,
+    //       curve: Curves.fastLinearToSlowEaseIn,
+    //       // curve: Curves.fastOutSlowIn,
+    //     ),
+    //   ),
+    //   child: child,
+    // );
+
+    // return child;
   }
 
   @override
