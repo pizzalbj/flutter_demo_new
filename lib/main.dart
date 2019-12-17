@@ -1,9 +1,12 @@
 import 'dart:async';
+import 'dart:io';
 
+import 'package:amap_location/amap_location.dart';
 import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/physics.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_2d_amap/flutter_2d_amap.dart';
 import 'package:flutter_demo_new/navigation.dart';
 import 'package:flutter_demo_new/widget/a_demo.dart';
 import 'package:flutter_demo_new/widget/a_gridTest.dart';
@@ -70,18 +73,25 @@ import 'package:flutter_demo_new/widget/zza_keyboard_close.dart';
 import 'package:flutter_demo_new/widget/zzb_image_picker_rotate.dart';
 import 'package:flutter_demo_new/widget/zzc_widget_fade_in_and_out.dart';
 import 'package:flutter_demo_new/widget/zzd_life_cycle.dart';
+import 'package:flutter_demo_new/widget/zze_map_test.dart';
+import 'package:flutter_demo_new/widget/zzf_url_launcher.dart';
+import 'package:flutter_demo_new/widget/zzg_flutter_2d_amap.dart';
+import 'package:flutter_demo_new/widget/zzh_listener.dart';
+import 'package:flutter_demo_new/widget/zzi_enlarge_pic.dart';
+import 'package:flutter_demo_new/widget/zzj_view_pic.dart';
 import 'package:flutter_webview_plugin/flutter_webview_plugin.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-// void main() => runApp(MyApp());
-void main() => runApp(BlocProvider<ApplicationBloc>(
-      bloc: ApplicationBloc(),
-      child: BlocProvider(
-        bloc: MainBloc(),
-        child: MyApp(),
-      ),
-    ));
+void main() {
+  runApp(BlocProvider<ApplicationBloc>(
+    bloc: ApplicationBloc(),
+    child: BlocProvider(
+      bloc: MainBloc(),
+      child: MyApp(),
+    ),
+  ));
+}
 
 var img = {
   "url":
@@ -294,6 +304,73 @@ class _MyHomePageState extends State<MyHomePage> {
               Navigator.of(context).push(
                 new MaterialPageRoute(builder: (ctx) {
                   return new DemoPage();
+                }),
+              );
+            },
+          ),
+          new ListTile(
+            trailing: new Icon(Icons.keyboard_arrow_right),
+            title: new Text("完整的图片查看器"),
+            onTap: () {
+              Navigator.of(context).push(
+                new MaterialPageRoute(builder: (ctx) {
+                  return new ImagesViewPage();
+                }),
+              );
+            },
+          ),
+          new ListTile(
+            trailing: new Icon(Icons.keyboard_arrow_right),
+            title: new Text("双指放大图片"),
+            onTap: () {
+              Navigator.of(context).push(
+                new MaterialPageRoute(builder: (ctx) {
+                  return new GridAnimation();
+                }),
+              );
+            },
+          ),
+          new ListTile(
+            trailing: new Icon(Icons.keyboard_arrow_right),
+            title: new Text("Listener"),
+            onTap: () {
+              Navigator.of(context).push(
+                new MaterialPageRoute(builder: (ctx) {
+                  return new ListenerPage();
+                }),
+              );
+            },
+          ),
+          new ListTile(
+            trailing: new Icon(Icons.keyboard_arrow_right),
+            title: new Text("打开高德地图并标记当前位置"),
+            onTap: () {
+              Flutter2dAMap.setApiKey("ef7b50adb1686e99d94c42e1ae97419b");
+              Navigator.of(context).push(
+                new MaterialPageRoute(builder: (ctx) {
+                  return new AMapWithMarkPage();
+                }),
+              );
+            },
+          ),
+          new ListTile(
+            trailing: new Icon(Icons.keyboard_arrow_right),
+            title: new Text("唤醒第三方APP"),
+            onTap: () {
+              Navigator.of(context).push(
+                new MaterialPageRoute(builder: (ctx) {
+                  return new UrlLauncherPage();
+                }),
+              );
+            },
+          ),
+          new ListTile(
+            trailing: new Icon(Icons.keyboard_arrow_right),
+            title: new Text("高德地图获取定位"),
+            onTap: () {
+              Navigator.of(context).push(
+                new MaterialPageRoute(builder: (ctx) {
+                  return new MapTestPage();
                 }),
               );
             },
@@ -993,8 +1070,8 @@ class _MyHomePageState extends State<MyHomePage> {
               Navigator.of(context).push(
                 new MaterialPageRoute(builder: (ctx) {
                   return new ViewDialog(
-                    img: img,
-                    imgs: imgs,
+                    image: img,
+                    images: imgs,
                     width: MediaQuery.of(context).size.width,
                   );
                 }),

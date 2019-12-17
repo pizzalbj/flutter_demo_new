@@ -1,18 +1,17 @@
-//图片查看
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-//import 'dart:async';
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter_demo_new/widget/zzi_enlarge_pic.dart';
 
-/*
- * imgs 格式[{url:'',file:File}]
- * img 当前点击进入的图片
- * width 屏幕宽度
- */
-
+/// image 当前点击进入的图片
+/// images 格式[{url:'',file:File}]，优先 url
+/// width 屏幕宽度
 class ViewDialog extends StatefulWidget {
-  ViewDialog({Key key, this.img, this.imgs, this.width}) : super(key: key);
-  final img;
-  final imgs;
+  final image;
+  final images;
   final width;
+
+  ViewDialog({Key key, this.image, this.images, this.width}) : super(key: key);
 
   @override
   _PageStatus createState() => _PageStatus();
@@ -20,72 +19,62 @@ class ViewDialog extends StatefulWidget {
 
 class _PageStatus extends State<ViewDialog> {
   var image;
+
+  // 屏幕宽
   var w;
+
+  // 当前第几张
   var index = 1;
+
+  // 点击距原点的X轴值
+  var down = 0.0;
+
+  // 是否超过了一半
+  var half = false;
+
+  var len = 0;
+
   var _scrollController;
-  var down = 0.0; //触开始的时候的left
-  var half = false; //是否超过一半
-
-  last() {
-    if(1 == index) {
-
-    }else {
-      setState(() {
-        image = widget.imgs[index - 2];
-        index = index - 1;
-      });
-    }
-  }
-
-  next() {
-    if(widget.imgs.length == index) {
-
-    }else {
-      setState(() {
-        image = widget.imgs[index];
-        index = index + 1;
-      });
-    }
-  }
-
-  delete() {
-    Navigator.pop(context);
-  }
 
   @override
   void initState() {
-    //页面初始化
     super.initState();
     var n = 0;
     var nn;
-    widget.imgs.forEach((i) {
+    // 获取图片的index：nn
+    widget.images.forEach((i) {
       n = n + 1;
-      if(i['key'] == widget.img['key']) {
+      if (i['key'] == widget.image['key']) {
         nn = n;
       }
     });
-    print(nn);
-    if(nn > 1) {
-      print(widget.width);
-      _scrollController = ScrollController(
-          initialScrollOffset: widget.width * (nn - 1)
-      );
-    }else {
+    // 显示默认的图片
+    if (nn > 1) {
+      _scrollController =
+          ScrollController(initialScrollOffset: widget.width * (nn - 1));
+    } else {
       _scrollController = ScrollController(
         initialScrollOffset: 0,
       );
     }
     setState(() {
-      image = widget.img;
+      len = widget.images.length;
+      image = widget.image;
       index = nn;
     });
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _scrollController.dispose();
   }
 
   nextPage(w) {
     setState(() {
       index = index + 1;
       _scrollController.animateTo(
-        (index -1) * w,
+        (index - 1) * w,
         duration: Duration(milliseconds: 200),
         curve: Curves.easeIn,
       );
@@ -103,72 +92,103 @@ class _PageStatus extends State<ViewDialog> {
     });
   }
 
-  moveEnd(e,w,l) {
+  /// 一张一张的滑动
+  moveEnd(e, w, l) {
+    // 滑动的速度
     var end = e.primaryVelocity;
-    if(end > 10 && index > 1) {
+    if (end > 10 && index > 1) {
+      // end > 0：X轴 正方向
       lastPage(w);
-    }else if(end < -10 && index < l){
+    } else if (end < -10 && index < l) {
+      // end < 0：X轴 负方向
       nextPage(w);
-    }else if(half == true){
-      if(down > w/2 && index < l) {
-        //右边开始滑动超过一半,则下一张
+    } else if (half == true) {
+      // 滑动超过一半
+      if (down > w / 2 && index < l) {
+        // 右边开始滑动超过一半，则下一张
         nextPage(w);
-      }else if(down < w/2 && index > 1){
+      } else if (down < w / 2 && index > 1) {
         lastPage(w);
-      }else {
+      } else {
+        print("half == true 颤抖吧");
         _scrollController.animateTo(
-          (index -1) * w,
+          (index - 1) * w,
           duration: Duration(milliseconds: 200),
           curve: Curves.easeIn,
         );
       }
-    }else {
+    } else {
+      print("half != true 颤抖吧");
       _scrollController.animateTo(
-        (index -1) * w,
+        (index - 1) * w,
         duration: Duration(milliseconds: 200),
         curve: Curves.easeIn,
       );
     }
   }
 
-  imgMove(e,w,l) {
-    //down 为起点
+  /// ListView 滑到第一张和最后一张后后，继续滑动并回调
+  /// todo: 手指固定不动之后修复不抖动
+  imgMove(e, w, l) {
     var left = e.position.dx;
-    var now = (index -1 ) * w;
-    var move = left - down;//移动距离
-    if(left - down > w/2 || down - left > w/2) {
+    // 距 原点 的X轴距离
+    var now = (index - 1) * w;
+    // 手指滑动距离
+    var move = left - down;
+    // 判断 移动的距离 是否超过 屏幕的一半，用于设置上下一张
+    if (left - down > w / 2 || down - left > w / 2) {
       half = true;
-    }else {
+    } else {
       half = false;
     }
-    _scrollController.jumpTo(now - move);
+    if (index != 1 && index != len) {
+      _scrollController.jumpTo(now - move);
+    } else if (index == 1 && move > 0) {
+      // 第一张，向右继续滑动
+      _scrollController.jumpTo((now - move) / 2);
+    } else if (index == len && move < 0) {
+      // 最后一张，向左继续滑动
+      _scrollController.jumpTo(now + move.abs() / 2);
+    }
   }
 
-  Widget list(w,l) {
+  /// 显示图片，w: 图片的宽、l: 图片的数量
+  Widget list(w, l) {
     List<Widget> array = [];
-    widget.imgs.forEach((i) {
+    widget.images.forEach((i) {
       array.add(
+        /// Listener: 原生的点击事件，比 GestureDetector 更底层
+        /// 通过 Listener 来获取 GestureDetector 的信息
         Listener(
-          onPointerMove: (e) {
-            imgMove(e,w,l);
-          },
           onPointerDown: (e) {
+            // 1. 记录点击的位置
             down = e.position.dx;
           },
+          onPointerMove: (e) {
+            // 2. 监听手指水平滑动
+            imgMove(e, w, l);
+          },
           child: GestureDetector(
-            onTap: (){
+            onTap: () {
               Navigator.pop(context);
             },
-            onHorizontalDragEnd: (e) {moveEnd(e,w,l);},
+            onHorizontalDragEnd: (e) {
+              // 3. 手指离开屏幕，设置是上一张还是下一张图片
+              moveEnd(e, w, l);
+            },
+            // todo: 放大功能 应该是这里的手势控制，里面的手势控制会和这里的有冲突
             child: Container(
               width: w,
-              child: i['url'] != null ? Image.network(i['url']) : Image.file(i['file']),
+              child: i['url'] != null && i['url'] != ""
+                  ? new EnlargePhonePage(url: i['url'])
+                  : Image.file(i['file']),
             ),
           ),
         ),
       );
     });
     return ListView(
+      physics: new AlwaysScrollableScrollPhysics(),
       controller: _scrollController,
       scrollDirection: Axis.horizontal,
       children: array,
@@ -178,40 +198,36 @@ class _PageStatus extends State<ViewDialog> {
   @override
   Widget build(BuildContext context) {
     w = MediaQuery.of(context).size.width;
-    var l = widget.imgs.length;
-    return Container(
-      color: Colors.black,
-      child: Stack(
-        children: <Widget>[
-          list(w,l),
-          Positioned(
-            top: 20,
-            child: Container(
+    var l = widget.images.length;
+    return new Scaffold(
+      body: Container(
+        color: Colors.black,
+        child: Stack(
+          children: <Widget>[
+            // 图片
+            list(w, l),
+            // 下标
+            Positioned(
+              bottom: 34.0,
+              child: Container(
                 alignment: Alignment.center,
                 width: w,
-                child: Text('$index/$l',style: TextStyle(
-                  decoration: TextDecoration.none,
-                  color: Colors.white,fontSize: 16,
-                  fontWeight: FontWeight.w400,
-                  shadows: [
-                    Shadow(color: Colors.black, offset: Offset(1, 1)),
-                  ],
-                ))
-            ),
-          ),
-          Positioned(
-            top: 20,
-            right: 20,
-            child: Container(
-              alignment: Alignment.centerLeft,
-              width: 20,
-              child: GestureDetector(
-                onTap: () {delete();},
-                child: Icon(Icons.delete,color: Colors.white),
+                child: Text(
+                  '$index/$l',
+                  style: TextStyle(
+                    decoration: TextDecoration.none,
+                    color: Colors.white,
+                    fontSize: 16,
+                    fontWeight: FontWeight.w400,
+                    shadows: [
+                      Shadow(color: Colors.black, offset: Offset(1, 1)),
+                    ],
+                  ),
+                ),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

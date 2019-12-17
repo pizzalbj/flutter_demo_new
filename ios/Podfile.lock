@@ -1,5 +1,20 @@
 PODS:
+  - AMap2DMap (5.6.1):
+    - AMapFoundation (~> 1.4)
+  - amap_location (0.0.1):
+    - AMapLocation
+    - Flutter
+  - AMapFoundation (1.6.0)
+  - AMapLocation (2.6.3):
+    - AMapFoundation (~> 1.4)
+  - AMapSearch (7.1.0):
+    - AMapFoundation (~> 1.4)
   - Flutter (1.0.0)
+  - flutter_2d_amap (0.0.1):
+    - AMap2DMap
+    - AMapLocation
+    - AMapSearch
+    - Flutter
   - flutter_image_compress (0.0.1):
     - Flutter
     - Mantle
@@ -24,13 +39,17 @@ PODS:
   - sqflite (0.0.1):
     - Flutter
     - FMDB (~> 2.7.2)
+  - url_launcher (0.0.1):
+    - Flutter
   - video_player (0.0.1):
     - Flutter
   - webview_flutter (0.0.1):
     - Flutter
 
 DEPENDENCIES:
+  - amap_location (from `.symlinks/plugins/amap_location/ios`)
   - Flutter (from `Flutter`)
+  - flutter_2d_amap (from `.symlinks/plugins/flutter_2d_amap/ios`)
   - flutter_image_compress (from `.symlinks/plugins/flutter_image_compress/ios`)
   - flutter_webview_plugin (from `.symlinks/plugins/flutter_webview_plugin/ios`)
   - fluttertoast (from `.symlinks/plugins/fluttertoast/ios`)
@@ -39,17 +58,26 @@ DEPENDENCIES:
   - path_provider (from `.symlinks/plugins/path_provider/ios`)
   - shared_preferences (from `.symlinks/plugins/shared_preferences/ios`)
   - sqflite (from `.symlinks/plugins/sqflite/ios`)
+  - url_launcher (from `.symlinks/plugins/url_launcher/ios`)
   - video_player (from `.symlinks/plugins/video_player/ios`)
   - webview_flutter (from `.symlinks/plugins/webview_flutter/ios`)
 
 SPEC REPOS:
   trunk:
+    - AMap2DMap
+    - AMapFoundation
+    - AMapLocation
+    - AMapSearch
     - FMDB
     - Mantle
 
 EXTERNAL SOURCES:
+  amap_location:
+    :path: ".symlinks/plugins/amap_location/ios"
   Flutter:
     :path: Flutter
+  flutter_2d_amap:
+    :path: ".symlinks/plugins/flutter_2d_amap/ios"
   flutter_image_compress:
     :path: ".symlinks/plugins/flutter_image_compress/ios"
   flutter_webview_plugin:
@@ -66,26 +94,35 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/shared_preferences/ios"
   sqflite:
     :path: ".symlinks/plugins/sqflite/ios"
+  url_launcher:
+    :path: ".symlinks/plugins/url_launcher/ios"
   video_player:
     :path: ".symlinks/plugins/video_player/ios"
   webview_flutter:
     :path: ".symlinks/plugins/webview_flutter/ios"
 
 SPEC CHECKSUMS:
+  AMap2DMap: cac76bc057de18a1641f34df6b50bf5bc6b23571
+  amap_location: a3e2a140bb25950d4e97560ce1b00e53a121e4f4
+  AMapFoundation: bc2f6e077b9279942734ba55f9624222fcf42848
+  AMapLocation: dc2c4fde95d72087d73934338160fadc72104bb7
+  AMapSearch: 6bd6d361c5eb00110e0bffa4acf88b7bb9f7e059
   Flutter: 0e3d915762c693b495b44d77113d4970485de6ec
+  flutter_2d_amap: c17f503c128646126c12f394cee379930a058796
   flutter_image_compress: f69d0e0e078ce52b4810695593bc861ee319ae7d
   flutter_webview_plugin: ed9e8a6a96baf0c867e90e1bce2673913eeac694
   fluttertoast: b644586ef3b16f67fae9a1f8754cef6b2d6b634b
   FMDB: 2ce00b547f966261cd18927a3ddb07cb6f3db82a
-  image_picker: 16e5fec1fbc87fd3b297c53e4048521eaf17cd06
+  image_picker: e3eacd46b94694dde7cf2705955cece853aa1a8f
   Mantle: 2fa750afa478cd625a94230fbf1c13462f29395b
-  package_info: 78cabb3c322943c55d39676f4a5bfc748c01d055
+  package_info: 48b108e75b8802c2d5e126f208ef540561c98aef
   path_provider: fb74bd0465e96b594bb3b5088ee4a4e7bb1f2a9d
-  shared_preferences: 1feebfa37bb57264736e16865e7ffae7fc99b523
+  shared_preferences: 430726339841afefe5142b9c1f50cb6bd7793e01
   sqflite: 4001a31ff81d210346b500c55b17f4d6c7589dd0
+  url_launcher: a1c0cc845906122c4784c542523d8cacbded5626
   video_player: 3964090a33353060ed7f58aa6427c7b4b208ec21
   webview_flutter: db3aba222b23e4dc432e0c5882834123dc50ff9f
 
 PODFILE CHECKSUM: 3a3db558cc071068e6e0ab7593875974d2184d8b
 
-COCOAPODS: 1.8.3
+COCOAPODS: 1.8.4
